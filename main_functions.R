@@ -16,9 +16,12 @@ load_climate <- function(dir_climate){
 
 ## data <- climate[[1]]
 
-tidy_climate <- function(data){
+tidy_climate <- function(data, scenario){
   
   options(warn = -1)
+  
+  require(tidyverse)
+  require(lubridate)
   
   current_year <- Sys.Date() %>%
     year()  
@@ -30,7 +33,7 @@ tidy_climate <- function(data){
                      end_frcast, by = '1 day')
   
   data <-  tbl_df(data.frame(data, frcast_date)) %>%
-    mutate(identifier = rep(1, length(day)), 
+    mutate(scenario = rep(scenario, length(day)),
            julian_day = yday(frcast_date), 
            year_2 =year(frcast_date), 
            sol_rad = sol_rad * 1000, 
@@ -40,5 +43,20 @@ tidy_climate <- function(data){
   return(data)
   
 }
+
+
+load_all_climate <- function(dir_climate){
+  
+  number_scenarios <- 1:length(list.files(dir_climate))
+  
+  climate <- load_climate(dir_climate) %>%
+    Map('tidy_climate', .,number_scenarios)
+  
+  return(climate)
+
+}
+
+
+
 
 
