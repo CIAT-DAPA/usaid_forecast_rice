@@ -57,17 +57,22 @@ load_all_climate <- function(dir_climate){
 
 ## maybe filename USAID
 ## filename <- 'USAID'
+
+
 make_mult_weather <- function(scenarios, dir_run, filename, long, lat, elev){
   
   # filename <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Prueba/'
  
   number_scenarios <- 1:length(scenarios)
   
-  names <- paste0(dir_run, 'USAID', number_scenarios, '.clim')
+  names <- paste0(dir_run, 'USAID', number_scenarios, '.cli')
   
   invisible(Map('make_weather', climate, names, long, lat, elev, number_scenarios))
   
   
 }
+
+
+
 
 
