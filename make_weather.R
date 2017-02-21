@@ -1,8 +1,8 @@
 ## make climate file
 
 # libs required
-library(tidyverse)
-library(lubridate)
+# library(tidyverse)
+# library(lubridate)
 
 ## Path scenarios climate file
 # path <- '//dapadfs/Workspace_cluster_9/USAID_Project/Product_3_agro-climatic_forecast/crop/Rice/Clima/Escenarios/'
@@ -11,9 +11,9 @@ library(lubridate)
 ## verify if ORYZA use a head for lat, long, elev, 0,0   (Jeferson Rodriguez said me yes!!!!)
 # estos parametros deberian estar incluidos en la estacion basicamente es la Region a correr
 
-lat <- 8.84
-long <- -75.8
-elev <- 84
+# lat <- 8.84
+# long <- -75.8
+# elev <- 84
 
 
 ## first question 
@@ -24,7 +24,7 @@ elev <- 84
 ## add make_date
 
 
-# proof_file <- climate_list[[1]]
+#  climate_df <- climate[[1]]
 
 
 # make_weather(proof_file, filename = 'EO1.016', long, lat, elev, scenario)
@@ -32,13 +32,15 @@ elev <- 84
 
 make_weather <- function(climate_df, filename, long, lat, elev, scenario){
   
+  require(tidyverse)
   
   climate_df <- climate_df %>%
-    select(scenario, julian_day, sol_rad, t_min, t_max, x, x, prec)
+    mutate(y = x) %>%
+    select(scenario, year_2, julian_day, sol_rad, t_min, t_max, x, y, prec)
   
   sink(file = filename, append = F)
   
-  cat(paste0(long, ',', lat, ',', elev, ',', -99, ',', -99))
+  cat(paste0(long, ',', lat, ',', elev, ',', 0, ',', 0))
   cat('\n')
   write.table(climate_df, sep = ",", row.names = F, col.names = F)
   
