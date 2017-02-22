@@ -20,9 +20,10 @@ write_head <- function(out_file, information, final_run = FALSE){
     
     sink(name_control, append = F)
     
-    cat(paste('*CONTROLFILE =',  CONTROLFILE, '.DAT'), sep = '\n')
+    cat(paste0('*CONTROLFILE = ',  CONTROLFILE, '.DAT'), sep = '\n')
     cat(paste('STRUN =', STRUN), sep = '\n')
     cat(paste('*ENDRUN =', ENDRUN), sep = '\n')
+    cat(sep = '\n')
     
     sink()
     
@@ -61,8 +62,93 @@ write_ctrl_params <- function(name_control, information){
   cat(paste('FILEI1 =', "' '"), sep = '\n')
   cat(paste0('FILEIR = ', "'", FILEIR, "'"), sep = '\n')
   cat(paste('FILEI2 =', "' '"), sep = '\n')
+  cat(sep = '\n')
   
   sink()
 }
 
+#  information <- ctrl_wther('USAID', 1)
+#  write_wther(proof, information)
+
+write_wther <- function(name_control, information){
+  
+  
+  CNTR <- information$CNTR
+  ISTN <- information$ISTN
+  
+  sink(name_control, append = T)
+  
+  cat('*----------------------------------------------------------------------*', sep = '\n')
+  cat('* Optionally, Weather Station information can be provided here         * ', sep = '\n')
+  cat('* It is useful for large amount of simulations under same management   *', sep = '\n')
+  cat('*----------------------------------------------------------------------*', sep = '\n')
+  
+#   cat('*----------------------------------------------------------------------*
+# * Optionally, Weather Station information can be provided here         * 
+# * It is useful for large amount of simulations under same management   *
+# *----------------------------------------------------------------------*', sep = '\n')
+  
+  cat(paste('WTRDIR =', "' '"), sep = '\n')
+  cat(paste0('CNTR = ', "'", CNTR, "'"), sep = '\n')
+  cat(paste0('ISTN = ', ISTN), sep = '\n')
+  cat(paste('MULTIY =', "'YES'"), sep = '\n')
+  cat(sep = '\n')
+  
+  sink()
+  
+  
+} 
+
+## write_options_out(proof)
+
+write_options_out <- function(name_control){
+  
+  sink(name_control, append = T)
+  cat('*----------------------------------------------------------------------*
+* Rice monoculture cropping system                                     *
+* the default for SOILKILL is "YES", soil will be reinitiated every    *
+* crop season, and all processes in soil will also stop as growth stop.*
+* if "NO", soil will only be initiated at the starting date of simulation*
+* and all processes in soil will continue after growth stop.           *
+*----------------------------------------------------------------------*', sep = '\n')
+  # cat(sep = '\n')
+  
+  cat(paste0('*SOILKILL = ', "'NO'", '   !* Whether the soil processes continue after crop maturity'), sep = '\n')
+  
+  # cat(sep = '\n')
+  
+  cat('*----------------------------------------------------------------------*
+* Set output/print options                                             *
+*----------------------------------------------------------------------*', sep = '\n')
+  
+  # cat(sep = '\n')
+  
+  cat(paste0('PRDEL = ', 1, '.', ' ! Output time step (day), too much reruns, omit detail outputs!'), sep = '\n')
+  
+  # cat(sep = '\n')
+  
+  cat(paste0('IPFORM = ', 5, '   ! Code for output table format:'), sep = '\n')
+  
+  # cat(sep = '\n')
+  
+  cat(paste0('COPINF = ', "'N'", '   ! Switch variable whether to copy the input files to the output'), sep = '\n')
+  
+  # cat(sep = '\n')
+  
+  cat(paste0('DELTMP = ', "'N'", '   ! Switch variable what should be done with the temporary output'), sep = '\n')
+  
+  # cat(sep = '\n')
+  
+  cat(paste0("IFLAG  = ", 1100, '  ! Indicates where weather error and warnings go'), sep = '\n')
+ 
+  # cat(sep = '\n')
+  
+  cat(paste0('*PRSEL = ', "'WAGT'", ',', "'WRR14'", ',', "'WSO'"), sep = '\n')
+  cat(paste0('*        ', "'LAI'", ',', " 'LAI_OBS'"), sep = '\n')
+  
+  cat(paste0('*OPSTRING = ', "'DAE, WRR14, WAGT'", ' !* It is for the output variables in op.dat'), sep = '\n')
+  cat(paste0('*IOBSD = '), '2008,161')
+  
+  sink()
+}
   

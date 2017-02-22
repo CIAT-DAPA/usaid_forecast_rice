@@ -26,10 +26,20 @@ make_mult_weather(climate, dir_run, filename, long, lat, elev)
 
 
 
+### make control.DAT
 
 
+out_file <-  'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Prueba/'
+# information <- settings_head('CONTROL', 1, 1)
+proof <- write_head(out_file, settings_head('CONTROL', 1, 1))
 
+# information <- ctrl_params('RES.DAT', 'MODEL.LOG', 'USAID.rer')
+write_ctrl_params(proof, ctrl_params('RES.DAT', 'MODEL.LOG', 'USAID.rer'))
 
+ # information <- ctrl_wther('USAID', 1)
+ write_wther(proof, ctrl_wther('USAID', 1))
+ 
+ write_options_out(proof)
 
 
 #############################################

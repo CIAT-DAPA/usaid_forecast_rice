@@ -25,4 +25,20 @@ ctrl_params <- function(FILEON, FILEOL, FILEIR){
 
 # information <- ctrl_params('RES.DAT', 'MODEL.LOG', 'USAID.rer')
 
+## Weather station information 
+# CNTR = Weather station name
+#  ISTN = weather station number
+
+
+ctrl_wther <- function(CNTR, ISTN){
+  
+  data.frame(CNTR, ISTN)
+  
+  
+}
+
+# ctrl_wther('USAID', 1)
+
+
+
 
