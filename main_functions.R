@@ -73,6 +73,15 @@ make_mult_weather <- function(scenarios, dir_run, filename, long, lat, elev){
 }
 
 
+make_control <- function(out_file){
+  
+  # out_file <-  'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Prueba/'
 
-
+  proof <- write_head(out_file, settings_head('CONTROL', 1, 1))
+  
+  write_ctrl_params(proof, ctrl_params('RES.DAT', 'MODEL.LOG', 'USAID.rer'))
+  write_wther(proof, ctrl_wther('USAID', 1))
+  write_options_out(proof)
+  
+}
 
