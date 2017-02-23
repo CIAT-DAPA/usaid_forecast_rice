@@ -2,9 +2,12 @@
 
 library(lubridate)
 library(tidyverse)
+library(rebus)
 
 source("write_control.R")
 source("settings_control.R")
+source("main_functions.R")
+source("make_weather.R")
 
 dir_climate <- "D:/CIAT/USAID/Oryza/Escenarios_update_csv/"
 dir_run <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Prueba/'
@@ -25,6 +28,8 @@ elev <- 84
 
 make_mult_weather(climate, dir_run, filename, long, lat, elev)
 make_control(dir_run)
+make_reruns(dir_run)
 
-date_reruns()
+
+
 
