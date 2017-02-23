@@ -28,7 +28,7 @@ elev <- 84
 
 make_mult_weather(climate, dir_run, filename, long, lat, elev)
 make_control(dir_run)
-make_reruns(dir_run)
+make_reruns(data, dir_run)
 
 
 

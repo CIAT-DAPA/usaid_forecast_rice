@@ -86,10 +86,10 @@ make_control <- function(out_file){
 }
 
 
-settins_reruns <- function(region, CNTR, IYEAR, STTIME, EMD, dir_run){
+settins_reruns <- function(region, CNTR, ISTN, IYEAR, STTIME, EMD, dir_run){
   
   
-  WTRDIR = gsub('/', BACKSLASH, WTRDIR)
+  WTRDIR = paste0("'", gsub('/', BACKSLASH, dir_run), "'")
   
   if(region == "Saldaña"){
     
@@ -97,14 +97,26 @@ settins_reruns <- function(region, CNTR, IYEAR, STTIME, EMD, dir_run){
                        FILEI2 = 'FEMO.sol',
                        FILEI1 = 'F2000.crp',
                        CNTR,
+                       ISTN,
                        IYEAR, 
                        STTIME,
                        EMD,
                        EMYR = IYEAR, 
-                       WTRDIR = dir_run)
+                       WTRDIR = WTRDIR)
     
   }
   
   return(data)
 }
+
+
+make_reruns <- function(data, region, dir_run, CNTR, ISTN, IYEAR, STTIME, EMD){
+  
+  data <- settins_reruns(region, CNTR, ISTN, IYEAR, STTIME, EMD, dir_run)
+  
+  write_reruns(data, dir_run)
+  
+}
+
+
 

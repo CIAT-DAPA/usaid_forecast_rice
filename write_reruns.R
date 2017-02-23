@@ -6,7 +6,7 @@ write_reruns <- function(data, dir_run){
   
   file_name <- paste0(dir_run, data$CNTR, '.rer')
   
-  print(file_name)
+  # print(file_name)
   if(file.exists(file_name)){
     
     file.remove(file_name)
@@ -27,7 +27,7 @@ write_reruns <- function(data, dir_run){
     cat(paste("STTIME =  ",  data[i, 'STTIME'], ".", sep = ""), sep = '\n')
     cat(paste("EMD =  ", data[i, 'EMD'], sep = ""), sep = '\n')
     cat(paste("EMYR = ", data[i, 'EMYR'], sep = ""), sep = '\n')
-    cat(paste("WTRDIR = ", data[i, 'WTRDIR'], sep = ""), sep = '\n')
+    cat(paste("WTRDIR = ", as.character(data[i, 'WTRDIR']), sep = ""), sep = '\n')
     
     
   }
