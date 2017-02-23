@@ -85,3 +85,26 @@ make_control <- function(out_file){
   
 }
 
+
+settins_reruns <- function(region, CNTR, IYEAR, STTIME, EMD, dir_run){
+  
+  
+  WTRDIR = gsub('/', BACKSLASH, WTRDIR)
+  
+  if(region == "Saldaña"){
+    
+    data <- data.frame(FILEIT = 'FEMO.exp', 
+                       FILEI2 = 'FEMO.sol',
+                       FILEI1 = 'F2000.crp',
+                       CNTR,
+                       IYEAR, 
+                       STTIME,
+                       EMD,
+                       EMYR = IYEAR, 
+                       WTRDIR = dir_run)
+    
+  }
+  
+  return(data)
+}
+
