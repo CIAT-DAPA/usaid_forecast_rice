@@ -142,7 +142,7 @@ make_reruns <- function(data, dir_run){
 # dir_oryza <- 'C:/Program Files (x86)/ORYZA(v3)/'
 # dir_run <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Prueba/'
 
-files_oryza(dir_oryza, dir_run)
+# files_oryza(dir_oryza, dir_run)
 
 files_oryza <- function(dir_oryza, dir_run){
   
@@ -153,3 +153,20 @@ files_oryza <- function(dir_oryza, dir_run){
 }
 
 
+
+
+## add Experimental and cultivar files
+
+# dir_files <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Experimental_Cultivar_Files/'
+# add_exp_cul(dir_files, region, dir_run)
+add_exp_cul <- function(dir_files, region, dir_run){
+  
+  
+  if(region == "Saldaña"){
+    
+    dir_files <- list.files(dir_files, full.names = T)
+    file.copy(dir_files, dir_run)
+  }
+  
+  
+}

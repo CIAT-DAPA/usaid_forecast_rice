@@ -13,6 +13,7 @@ source("write_reruns.R")
 dir_climate <- "D:/CIAT/USAID/Oryza/Escenarios_update_csv/"
 dir_run <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Prueba/'
 filename <- 'USAID'
+dir_oryza <- 'C:/Program Files (x86)/ORYZA(v3)/'
 
 
 ## add source functions
@@ -40,6 +41,8 @@ make_control(dir_run)
 
 data <- settins_reruns(region = "Saldaña", reruns_params, dir_run)
 make_reruns(data, dir_run)
+files_oryza(dir_oryza, dir_run)
+add_exp_cul
 
 
 
