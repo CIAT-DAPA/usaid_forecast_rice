@@ -170,3 +170,12 @@ add_exp_cul <- function(dir_files, region, dir_run){
   
   
 }
+
+execute_oryza <- function(dir_run){
+  
+  setwd(dir_run)
+  system(paste0(' ORYZA3.exe'), ignore.stdout = T, show.output.on.console = F)
+  setwd('..')
+  
+  
+}
