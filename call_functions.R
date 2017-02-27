@@ -8,6 +8,7 @@ source("write_control.R")
 source("settings_control.R")
 source("main_functions.R")
 source("make_weather.R")
+source("write_reruns.R")
 
 dir_climate <- "D:/CIAT/USAID/Oryza/Escenarios_update_csv/"
 dir_run <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Prueba/'
@@ -28,7 +29,18 @@ elev <- 84
 
 make_mult_weather(climate, dir_run, filename, long, lat, elev)
 make_control(dir_run)
+
+
+# parametros re runs
+# reruns_params <- list()
+# reruns_params$ISTN <-  1 # escenario climatico
+# reruns_params$IYEAR <- 2017  ## año simulacion
+# reruns_params$STTIME <- 32 ## simulation date
+# reruns_params$EMD <- 32 # emergence date
+
+data <- settins_reruns(region = "Saldaña", reruns_params, dir_run)
 make_reruns(data, dir_run)
+
 
 
 
