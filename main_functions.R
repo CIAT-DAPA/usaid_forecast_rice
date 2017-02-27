@@ -137,4 +137,19 @@ make_reruns <- function(data, dir_run){
 }
 
 
+## copy files necessary to run oryza
+
+# dir_oryza <- 'C:/Program Files (x86)/ORYZA(v3)/'
+# dir_run <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Prueba/'
+
+files_oryza(dir_oryza, dir_run)
+
+files_oryza <- function(dir_oryza, dir_run){
+  
+  exe_oryza <- paste0(dir_oryza, 'ORYZA3.EXE')
+  
+  file.copy(exe_oryza, dir_run)
+  
+}
+
 
