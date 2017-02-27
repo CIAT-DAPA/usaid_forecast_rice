@@ -46,6 +46,7 @@ tidy_climate <- function(data, scenario){
 
 load_all_climate <- function(dir_climate){
   
+  require(tidyverse)
   number_scenarios <- 1:length(list.files(dir_climate))
   
   climate <- load_climate(dir_climate) %>%
@@ -85,9 +86,26 @@ make_control <- function(out_file){
   
 }
 
+# parametros re runs
+# reruns_params <- list()
+# reruns_params$ISTN <-  1 # escenario climatico
+# reruns_params$IYEAR <- 2017  ## año simulacion
+# reruns_params$STTIME <- 32 ## simulation date
+# reruns_params$EMD <- 32 # emergence date
 
-settins_reruns <- function(region, CNTR, ISTN, IYEAR, STTIME, EMD, dir_run){
+
+# settins_reruns(region = "Saldaña", reruns_params, dir_run)
+
+settins_reruns <- function(region, reruns_params, dir_run){
   
+  ISTN <- reruns_params$ISTN
+  IYEAR <- reruns_params$IYEAR
+  STTIME <- reruns_params$STTIME 
+  EMD <- reruns_params$EMD
+  
+  
+  
+  CNTR <- 'USAID'
   
   WTRDIR = paste0("'", gsub('/', BACKSLASH, dir_run), "'")
   
