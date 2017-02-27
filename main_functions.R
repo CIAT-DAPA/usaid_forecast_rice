@@ -128,9 +128,9 @@ settins_reruns <- function(region, reruns_params, dir_run){
 }
 
 
-make_reruns <- function(data, region, dir_run, CNTR, ISTN, IYEAR, STTIME, EMD){
+make_reruns <- function(data, dir_run){
   
-  data <- settins_reruns(region, CNTR, ISTN, IYEAR, STTIME, EMD, dir_run)
+  # data <- settins_reruns(region, CNTR, ISTN, IYEAR, STTIME, EMD, dir_run)
   
   write_reruns(data, dir_run)
   
