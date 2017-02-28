@@ -15,7 +15,7 @@ load_climate <- function(dir_climate){
 
 
 
-tidy_climate <- function(data, scenario){
+tidy_climate_date <- function(data, scenario){
   
   options(warn = -1)
   
@@ -50,7 +50,7 @@ load_all_climate <- function(dir_climate){
   number_scenarios <- 1:length(list.files(dir_climate))
   
   climate <- load_climate(dir_climate) %>%
-    Map('tidy_climate', .,number_scenarios)
+    Map('tidy_climate_date', .,number_scenarios)
   
   return(climate)
 
@@ -68,7 +68,7 @@ make_mult_weather <- function(scenarios, dir_run, filename, long, lat, elev){
   
   names <- paste0(dir_run, 'USAID', number_scenarios, '.cli')
   
-  invisible(Map('make_weather', climate, names, long, lat, elev, number_scenarios))
+  invisible(Map('make_weather', scenarios, names, long, lat, elev, number_scenarios))
   
   
 }
@@ -199,3 +199,47 @@ make_id_run <- function(dir_run, region, cultivar, day){
   
   return(paste0(dir_run, region, '/', cultivar, '/', day, '/'))
 }
+
+
+# data <- climate
+# number_days <- 45
+
+make_PS <- function(data, number_days){
+  
+  require(tidyverse)
+  require(lubridate)
+  require(magrittr)
+  
+  PDATE <- data[[1]] %>%
+    filter( row_number() == 1:number_days) %>%
+    select(julian_day) %>%
+    extract2(1) %>%
+    as.numeric()
+  
+  SDATE <- data[[1]] %>%
+    filter( row_number() == 1) %>%
+    select(julian_day) %>%
+    extract2(1) %>%
+    as.numeric()
+  
+  DATE <- data[[1]] %>%
+    filter( row_number() == 1:number_days) %>%
+    select(year_2) %>%
+    extract2(1)
+  
+  dates_inputs <- crossing(PDATE, SDATE) %>%
+    mutate(IYEAR = DATE)
+  
+  return(dates_inputs)
+  
+}
+
+
+tidy_climate <- function(dir_climate, number_days){
+
+
+  climate_scenarios <- load_all_climate(dir_climate)
+  input_dates <- make_PS(climate_scenarios, number_days)
+  return(list(input_dates = input_dates, climate_scenarios = climate_scenarios))
+}
+
