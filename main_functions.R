@@ -86,47 +86,6 @@ make_control <- function(out_file){
   
 }
 
-# parametros re runs
-# reruns_params <- list()
-# reruns_params$ISTN <-  1 # escenario climatico
-# reruns_params$IYEAR <- 2017  ## año simulacion
-# reruns_params$STTIME <- 32 ## simulation date
-# reruns_params$EMD <- 32 # emergence date
-
-
-# settins_reruns(region = "Saldaña", reruns_params, dir_run)
-
-settins_reruns <- function(region, reruns_params, dir_run){
-  
-  ISTN <- reruns_params$ISTN
-  IYEAR <- reruns_params$IYEAR
-  STTIME <- reruns_params$STTIME 
-  EMD <- reruns_params$EMD
-  
-  
-  
-  CNTR <- 'USAID'
-  
-  WTRDIR = paste0("'", gsub('/', BACKSLASH, dir_run), "'")
-  
-  if(region == "Saldaña"){
-    
-    data <- data.frame(FILEIT = 'FEMO.exp', 
-                       FILEI2 = 'FEMO.sol',
-                       FILEI1 = 'F2000.crp',
-                       CNTR,
-                       ISTN,
-                       IYEAR, 
-                       STTIME,
-                       EMD,
-                       EMYR = IYEAR, 
-                       WTRDIR = WTRDIR)
-    
-  }
-  
-  return(data)
-}
-
 
 make_reruns <- function(data, dir_run){
   

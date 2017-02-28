@@ -1,10 +1,19 @@
+## Proof
+# region = 'Saldaña'
+# CNTR <- 'USAID'
+# IYEAR <- 2017
+# STTIME <- 32
+# EMD <- 32
+# dir_run <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Prueba/'
+# ISTN <- 1
+# data <- settins_reruns(region, CNTR, ISTN, IYEAR, STTIME, EMD, dir_run)
 
-
+# write_reruns(data, dir_run)
 
 write_reruns <- function(data, dir_run){
   
   
-  file_name <- paste0(dir_run, data$CNTR, '.rer')
+  file_name <- paste0(dir_run, data$CNTR[1], '.rer')
   
   # print(file_name)
   if(file.exists(file_name)){
