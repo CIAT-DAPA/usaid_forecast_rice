@@ -179,3 +179,23 @@ execute_oryza <- function(dir_run){
   
   
 }
+
+
+## make id run
+## dir_run <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Prueba/'
+## region <- "Saldaña"
+## cultivar <- 'fedearroz2000'   ## el nombre de que depende??
+# day <- 1   ## dia para correr a partir de donde se genera el pronostico climatico
+
+make_id_run <- function(dir_run, region, cultivar, day){
+  
+  if (!dir.exists(paste0(dir_run, region, '/', cultivar, '/', day))) { 
+    
+    dir.create(paste0(dir_run, region, '/', cultivar, '/', day), showWarnings = F, recursive = TRUE, mode = "777")
+    # system('chmod 777 *.*')
+    # paste0(dir_base, region, '/', cultivar,  '/', select_day)
+    
+  }
+  
+  return(paste0(dir_run, region, '/', cultivar, '/', day, '/'))
+}
