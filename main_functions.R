@@ -120,13 +120,30 @@ files_oryza <- function(dir_oryza, dir_run){
 # add_exp_cul(dir_files, region, dir_run)
 add_exp_cul <- function(dir_files, region, dir_run){
   
+  require(stringr)
+  require(tidyverse)
   
   if(region == "Saldaña"){
     
     dir_files <- list.files(paste0(dir_files, 'Saldaña'), full.names = T)
     file.copy(dir_files, dir_run)
+    
+    pos_extract <- '.sol' %>%
+      grep(dir_files)
+    
+    split_id_soil <- dir_files %>%
+                        .[pos_extract] %>%
+                        str_split('/') %>%
+                          .[[1]] 
+    
+    id_soil <- grep('.sol', split_id_soil, value = T) %>%
+                  str_split('.sol') %>%
+                  .[[1]] %>%
+                  .[1]
+    
   }
   
+  return(id_soil)
   
 }
 
@@ -218,6 +235,91 @@ read_op <- function(dir_run){
   require(tidyverse)
   op_df <- read_table(paste0(dir_run, 'op.dat'))
   return(op_df)
+}
+
+
+
+
+##3 functions to make descriptive
+
+
+mgment_no_run <- function(data){
+  
+  ifelse(data == -99, 0, data)
+  
+}
+
+
+
+
+conf_lower <- function(var){
+  
+  t.test(var)$conf.int[1]
+}
+
+conf_upper <- function(var){
+  
+  t.test(var)$conf.int[2]
+}
+
+
+CV <- function(var){
+  
+  (sd(var)/mean(var))*100
+  
+}
+
+
+# data <- op_dat
+# var <- 'WRR14'
+
+calc_desc <- function(data, var){
+  
+  data <- select_(data, var)
+  reclas_call <- lazyeval::interp(~ mgment_no_run(var), var = as.name(var))
+  
+  data <- data %>%
+    mutate_(.dots = setNames(list(reclas_call), var)) %>%
+    summarise_each(funs(avg = mean(.), 
+                        median = median(.), 
+                        min = min(.), 
+                        max = max(.), 
+                        quar_1 = quantile(., 0.25), 
+                        quar_2 = quantile(., 0.50), 
+                        quar_3 = quantile(., 0.75), 
+                        conf_lower = conf_lower(.), 
+                        conf_upper = conf_upper(.), 
+                        sd = sd(.), 
+                        perc_5 = quantile(., 0.05),
+                        perc_95 = quantile(., 0.95), 
+                        coef_var = CV(.))) %>%
+    mutate(measure = paste(var)) %>%
+    select(measure, everything())
+  return(data)
+}
+
+
+
+
+tidy_descriptive <- function(data, W_station, soil, cultivar, start, end){
+  
+  require(lubridate)
+  
+  data <- data %>%
+    mutate(weather_station = W_station,
+           soil = soil, 
+           cultivar = cultivar, 
+           start = start, 
+           end = end) %>%
+    select(weather_station, 
+           soil, 
+           cultivar, 
+           start, 
+           end, 
+           everything())
+  
+  return(data)
+  
 }
 
 
