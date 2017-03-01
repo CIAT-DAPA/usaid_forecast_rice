@@ -64,6 +64,7 @@ run_oryza <- function(dir_run, dir_files, region, cultivar, climate_scenarios = 
   SDATE <- input_dates$SDATE[select_day]
   IYEAR <- input_dates$IYEAR[select_day]
   ISTN <- 1:length(climate_scenarios)
+  DATE <- input_dates$DATE[select_day]
   
   
   parameters_reruns <- settins_reruns(region, PDATE, SDATE, IYEAR, ISTN, id_run)
@@ -79,6 +80,8 @@ run_oryza <- function(dir_run, dir_files, region, cultivar, climate_scenarios = 
   
   yield <- calc_desc(op_dat, 'WRR14') %>%
     tidy_descriptive(region, id_soil, cultivar, DATE, DATE)
+  
+  
   
   
   
