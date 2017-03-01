@@ -2,9 +2,10 @@
 
 library(lubridate)
 library(tidyverse)
-library(rebus)   ## for backslas
+library(rebus)   ## for backslash
 library(lubridate)
 library(magrittr)
+library(stringr)
 
 
 
@@ -13,6 +14,7 @@ source("settings_control.R")
 source("main_functions.R")
 source("make_weather.R")
 source("write_reruns.R")
+source("settings_reruns.R")
 
 dir_climate <- "D:/CIAT/USAID/Oryza/Escenarios_update_csv/"
 dir_run <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Temporal/'
@@ -23,6 +25,8 @@ region <- "Saldaña"
 cultivar <- "fedearroz2000"
 day <- 1 ## dia a correr a partir del pronostico climatico generado
 number_days <- 45 ## numero de dias a simular 
+dir_files <- 'D:/CIAT/USAID/Oryza/usaid_forecast_rice/Experimental_Cultivar_Files/'   ## directorio donde se encuentran los archivos experimentales y cultivares
+
 
 ## add source functions
 
@@ -39,7 +43,7 @@ location$elev <- 84
 ## is necessary to add lat, long, elev ? or is possible to put -99 for this variables 
 
 
-run_oryza <- function(dir_run, region, cultivar, climate_scenarios = climate$climate_scenarios, input_dates, location){
+run_oryza <- function(dir_run, dir_files, region, cultivar, climate_scenarios = climate$climate_scenarios, input_dates = climate$input_dates, location, select_day = day){
   
   lat <- location$lat
   long <- location$elev
@@ -53,24 +57,25 @@ run_oryza <- function(dir_run, region, cultivar, climate_scenarios = climate$cli
   make_mult_weather(climate_scenarios, id_run, filename, long, lat, elev)
   make_control(id_run)   ## mirar la funcion para cambiar las especificaciones
  
-  # parametros re runs
-  # reruns_params <- list()
-  # reruns_params$ISTN <-  1 # escenario climatico
-  # reruns_params$IYEAR <- 2017  ## año simulacion
-  # reruns_params$STTIME <- 32 ## simulation date
-  # reruns_params$EMD <- 32 # emergence date
+  
+  ## por ahora parece ser que se puede tener todo el vector
+  
+  PDATE <- input_dates$PDATE[select_day]
+  SDATE <- input_dates$SDATE[select_day]
+  IYEAR <- input_dates$IYEAR[select_day]
+  ISTN <- 1:length(climate_scenarios)
   
   
+  parameters_reruns <- settins_reruns(region, PDATE, SDATE, IYEAR, ISTN, id_run)
   
-  data <- settins_reruns(region = "Saldaña", reruns_params, id_run)
-  make_reruns(data, dir_run)
-  files_oryza(dir_oryza, dir_run)
-  add_exp_cul(dir_files, region, dir_run)
+  make_reruns(parameters_reruns, id_run)
+  files_oryza(dir_oryza, id_run)
+  add_exp_cul(dir_files, region, id_run)  ## controla los parametros por region 
+  execute_oryza(id_run)
   
+  ## extraer summary
   
-
-  execute_oryza()
-  
+  op_dat <- read_op(id_run)
   
 }
 
