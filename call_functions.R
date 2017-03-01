@@ -70,12 +70,20 @@ run_oryza <- function(dir_run, dir_files, region, cultivar, climate_scenarios = 
   
   make_reruns(parameters_reruns, id_run)
   files_oryza(dir_oryza, id_run)
-  add_exp_cul(dir_files, region, id_run)  ## controla los parametros por region 
+  id_soil <- add_exp_cul(dir_files, region, id_run)  ## controla los parametros por region y retorna el id del suelo
   execute_oryza(id_run)
   
   ## extraer summary
   
   op_dat <- read_op(id_run)
+  
+  yield <- calc_desc(op_dat, 'WRR14') %>%
+    tidy_descriptive(region, id_soil, cultivar, DATE, DATE)
+  
+  
+  
+  # yield <- calc_desc(op_dat, "yield_0") %>%
+    # tidy_descriptive(region, id_soil, cultivar, DATE, DATE)
   
 }
 
