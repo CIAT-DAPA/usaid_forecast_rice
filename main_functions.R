@@ -50,7 +50,7 @@ load_all_climate <- function(dir_climate){
   number_scenarios <- 1:length(list.files(dir_climate))
   
   climate <- load_climate(dir_climate) %>%
-    Map('tidy_climate_date', .,number_scenarios)
+    Map('tidy_climate_date', ., number_scenarios)
   
   return(climate)
 
@@ -123,7 +123,7 @@ add_exp_cul <- function(dir_files, region, dir_run){
   
   if(region == "Saldaña"){
     
-    dir_files <- list.files(dir_files, full.names = T)
+    dir_files <- list.files(paste0(dir_files, 'Saldaña'), full.names = T)
     file.copy(dir_files, dir_run)
   }
   
@@ -148,16 +148,23 @@ execute_oryza <- function(dir_run){
 
 make_id_run <- function(dir_run, region, cultivar, day){
   
-  if (!dir.exists(paste0(dir_run, region, '/', cultivar, '/', day))) { 
+  
+  require(stringr)
+  dir <- paste0(dir_run, region, '/', cultivar, '/', day, '/')
+  dir <- stringr::str_replace(dir, "ñ", "n")
     
-    dir.create(paste0(dir_run, region, '/', cultivar, '/', day), showWarnings = F, recursive = TRUE, mode = "777")
+  if (!dir.exists(dir)) { 
+    
+    dir.create(dir, showWarnings = F, recursive = TRUE, mode = "777")
     # system('chmod 777 *.*')
     # paste0(dir_base, region, '/', cultivar,  '/', select_day)
     
   }
   
-  return(paste0(dir_run, region, '/', cultivar, '/', day, '/'))
+  return(paste0(dir))
 }
+
+
 
 
 # data <- climate
@@ -201,4 +208,17 @@ tidy_climate <- function(dir_climate, number_days){
   input_dates <- make_PS(climate_scenarios, number_days)
   return(list(input_dates = input_dates, climate_scenarios = climate_scenarios))
 }
+
+
+
+## read summary oryza
+# id_run
+read_op <- function(dir_run){
+  
+  require(tidyverse)
+  op_df <- read_table(paste0(dir_run, 'op.dat'))
+  return(op_df)
+}
+
+
 
