@@ -210,8 +210,13 @@ make_PS <- function(data, number_days){
     select(year_2) %>%
     extract2(1)
   
+  DATE_format <- data[[1]] %>%
+    filter( row_number() == 1:number_days) %>%
+    select(frcast_date) %>%
+    extract2(1)
+  
   dates_inputs <- crossing(PDATE, SDATE) %>%
-    mutate(IYEAR = DATE)
+    mutate(IYEAR = DATE, DATE = DATE_format)
   
   return(dates_inputs)
   
