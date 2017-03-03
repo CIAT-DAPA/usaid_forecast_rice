@@ -329,3 +329,30 @@ tidy_descriptive <- function(data, W_station, soil, cultivar, start, end){
 
 
 
+
+run_mult_oryza <- function(dir_run, dir_files, region, cultivar, climate_scenarios, input_dates, location, select_day, number_days, out_csv){
+  
+  require(foreach)
+  # proof
+  
+  # number_days <- 3
+  # input_dates <- climate_PS$input_dates
+  # climate <- climate_PS$climate
+  # id_soil <- ID_SOIL
+  iterators <- rep(1:number_days, by = select_day)  
+  
+  out_op <- foreach(i = iterators) %do% {
+    
+    # print(i)
+    run_oryza(dir_run, dir_files, region, cultivar, climate$climate_scenarios, climate$input_dates, location, i)
+    
+    
+    
+  } 
+  
+  out_summary <- bind_rows(out_op)
+  write_csv(out_summary, paste0(dir_run , name_csv))
+  return(out_op)
+}
+
+
