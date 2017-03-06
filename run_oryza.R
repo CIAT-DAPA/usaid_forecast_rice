@@ -35,21 +35,27 @@ run_oryza <- function(dir_run, dir_files, region, cultivar, climate_scenarios, i
   
   ## extraer summary
   
-  op_dat <- read_op(id_run)
+  op_dat <- read_op(id_run) %>%
+    mutate(yield_14 = WRR14,
+           prec_acu = RAINCUM,
+           t_max_acu = TMAXC,
+           t_min_acu = TMINC,
+           bio_acu = WAGT)
   
-  yield <- calc_desc(op_dat, 'WRR14') %>%
+  
+  yield <- calc_desc(op_dat, 'yield_14') %>%
     tidy_descriptive(region, id_soil, cultivar, DATE, DATE)
   
-  prec_acu <- calc_desc(op_dat, 'RAINCUM') %>%
+  prec_acu <- calc_desc(op_dat, 'prec_acu') %>%
     tidy_descriptive(region, id_soil, cultivar, DATE, DATE)
   
-  t_max_acu <- calc_desc(op_dat, 'TMAXC') %>%
+  t_max_acu <- calc_desc(op_dat, 't_max_acu') %>%
     tidy_descriptive(region, id_soil, cultivar, DATE, DATE)
   
-  t_min_acu <- calc_desc(op_dat, 'TMINC') %>%
+  t_min_acu <- calc_desc(op_dat, 't_min_acu') %>%
     tidy_descriptive(region, id_soil, cultivar, DATE, DATE)
   
-  bio_acu <- calc_desc(op_dat, 'WAGT') %>%
+  bio_acu <- calc_desc(op_dat, ' bio_acu') %>%
     tidy_descriptive(region, id_soil, cultivar, DATE, DATE)
   
   summary_stats <- dplyr::bind_rows(list(yield, 
